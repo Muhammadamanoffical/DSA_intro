@@ -20,8 +20,48 @@ int main() {
     for (int k = n - 1; k >= 0; k--) {
         b[--update[a[k]]] = a[k];
     }
-    for (int i = 0; i < n; i++) {
-        cout << b[i] << " ";
+2. For this task, you will implement counting sort for an array with a large range of integer
+values, such as between 0 and 100,000. This task helps you test the scalability of the
+algorithm. For example, if you are given an input like [100000, 50000, 9999, 0, 199, 67,
+50123, 100000], you should expect the sorted output to be [0, 67, 199, 9999, 50000, 50123,
+100000, 100000]
+
+  #include <iostream>
+#include <vector>
+using namespace std;
+
+void countingSort(vector<int>& arr) {
+    const int MAX_VAL = 100000;  // Maximum value in the range (0 to 100000)
+    
+    // Step 1: Create a count array to store frequency of each element
+    vector<int> count(MAX_VAL + 1, 0);
+    
+    // Step 2: Count the occurrences of each number in the input array
+    for (int num : arr) {
+        count[num]++;
     }
+    
+    // Step 3: Rebuild the sorted array using the count array
+    int index = 0;
+    for (int num = 0; num <= MAX_VAL; num++) {
+        while (count[num] > 0) {
+            arr[index++] = num;
+            count[num]--;
+        }
+    }
+}
+
+int main() {
+    vector<int> arr = {100000, 50000, 9999, 0, 199, 67, 50123, 100000};
+    
+    countingSort(arr);
+    
+    // Print the sorted array
+    for (int num : arr) {
+        cout << num << " ";
+    }
+    cout << endl;
+    
     return 0;
 }
+
